@@ -4,6 +4,8 @@ WORKDIR "/application"
 RUN apt-get update && apt-get install -qqy git unzip libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \
+        libzip-dev \
+        zip \
         libaio1 wget && apt-get clean autoclean && apt-get autoremove --yes &&  rm -rf /var/lib/{apt,dpkg,cache,log}/ 
 #composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -31,4 +33,5 @@ RUN echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8 \
                oci8 \ 
        && docker-php-ext-configure pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient_12_1,12.1 \
        && docker-php-ext-install \
-               pdo_oci 
+               pdo_oci \               
+       && docker-php-ext-install zip
